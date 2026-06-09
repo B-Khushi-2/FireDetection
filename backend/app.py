@@ -19,9 +19,10 @@ from PIL import Image
 # -- TensorFlow / Model loading ------------------------------------------------
 try:
     import tensorflow as tf
+    import keras
     MODEL_PATH = os.path.join(os.path.dirname(__file__), "fire_detection_v1final.keras")
     if os.path.exists(MODEL_PATH):
-        model = tf.keras.models.load_model(MODEL_PATH)
+        model = keras.models.load_model(MODEL_PATH)
         MODEL_LOADED = True
         print("[OK]  Model loaded: fire_detection_v1.keras")
     else:
