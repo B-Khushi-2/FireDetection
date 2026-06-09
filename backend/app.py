@@ -20,6 +20,32 @@ from PIL import Image
 try:
     import tensorflow as tf
     import keras
+    
+    # Patch Keras to ignore 'quantization_config' during loading
+    try:
+        import keras.src.saving.serialization_lib as ser_lib
+        import keras.src.saving.saving_lib as sav_lib
+        
+        orig_deserialize = ser_lib.deserialize_keras_object
+        
+        def patched_deserialize(config, *args, **kwargs):
+            def strip_quantization(cfg):
+                if isinstance(cfg, dict):
+                    cfg.pop("quantization_config", None)
+                    for k, v in cfg.items():
+                        strip_quantization(v)
+                elif isinstance(cfg, list):
+                    for item in cfg:
+                        strip_quantization(item)
+            strip_quantization(config)
+            return orig_deserialize(config, *args, **kwargs)
+            
+        ser_lib.deserialize_keras_object = patched_deserialize
+        sav_lib.deserialize_keras_object = patched_deserialize
+        print("[OK]  Keras deserializer patched to ignore quantization_config.")
+    except Exception as patch_err:
+        print(f"[WARN] Failed to patch Keras deserializer: {patch_err}")
+
     MODEL_PATH = os.path.join(os.path.dirname(__file__), "fire_detection_v1final.keras")
     if os.path.exists(MODEL_PATH):
         model = keras.models.load_model(MODEL_PATH)
