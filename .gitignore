@@ -26,4 +26,4 @@ env/
 backend/uploads/*
 !backend/uploads/.gitkeep
 backend/history.json
-backend/*.keras
+#backend/*.keras
