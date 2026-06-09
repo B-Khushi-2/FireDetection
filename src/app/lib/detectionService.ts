@@ -7,7 +7,7 @@ import { DetectionResult, PredictionType, RiskLevel } from '../types';
  * Fallback path → mock prediction   (when backend is not running)
  */
 
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL || '/api';
 
 // ── Type helpers ──────────────────────────────────────────────────────────────
 function toFrontendPrediction(raw: string): PredictionType {
