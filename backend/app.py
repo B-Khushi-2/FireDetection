@@ -28,10 +28,12 @@ try:
         model = None
         MODEL_LOADED = False
         print("[WARN] Model file not found. Place fire_detection_v1.keras in backend/.")
-except Exception:
+except Exception as e:
     model = None
     MODEL_LOADED = False
-    print("[WARN] TensorFlow unavailable -- running in stub mode.")
+    print(f"[WARN] Error loading model: {str(e)}")
+    import traceback
+    traceback.print_exc()
 
 # ── App setup ──────────────────────────────────────────────────────────────────
 app = Flask(__name__)
