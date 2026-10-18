@@ -89,4 +89,4 @@ npm run dev
 
 ## 💡 Demo Mode
 
-If the Flask backend is not running, the app automatically falls back to **demo mode** — predictions are simulated locally and a banner is shown to the user.
+If the Flask backend is not running, the app automatically falls back to **demo mode** where predictions are simulated locally and a banner is shown to the user.
